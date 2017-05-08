@@ -12,7 +12,7 @@ Utility Class to Deploy/Clone vAPP in a threaded fashion, from source host to al
  * Import files under the src/vappdeployer/ folder into your IDE.
  * Required libraries are embedded within Runnable-Jar/vAppDeployer.jar, extract & import the libraries into the project.
  *  Run the utility from 'RunApp' program by providing arguments like:  
- _--vsphereip 1.2.3.4 --username adminUser --password dummyPasswd --srcvapp MyvApp --iteration 5_
+ _--vsphereip 192.168.1.1 --username adminUser --password dummyPasswd --srcvapp SrcDummyvApp --iteration 1_
 
 ##### Run from Pre-built Jars
  * Copy/Download the vAppDeployer.jar from Runnable-jar folder (from the uploaded file) and unzip on to local drive folder say c:\vAppDeployer
