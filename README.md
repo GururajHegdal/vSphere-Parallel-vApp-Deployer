@@ -1,10 +1,10 @@
 # vSphere- Parallel vApp Deployer
 ### 1. Details
 Utility Class to Deploy/Clone vAPP in a threaded fashion, from source host to all destination hosts in inventory for specified number iterations. It does the following operations,
- * - clone the vAPP on to each of the destination host
- * - Power on VMs in vAPP (in a threaded fashion) using PowerOnMultiVM_Task API
- * - Power off VMs in vAPP
- * - Destroy the vAPP
+ * Clone source vAPP on to each of the destination host
+ * Power on VMs in vAPP (in a threaded fashion) using PowerOnMultiVM_Task API
+ * Power off VMs in vAPP
+ * Destroy the vAPP
 
 ### 2. How to run the Utility?
 ##### Run from Dev IDE
