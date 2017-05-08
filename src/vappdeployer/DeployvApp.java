@@ -333,7 +333,7 @@ public class DeployvApp
                 VirtualApp newvAppObject = null;
                 System.out.println("Monitor vApp: " + newvAppName + " deployment task ...");
 
-                if (taskTracker(taskWhole)) {
+                if (taskTracker(taskWhole, newvAppName, "Deploy task")) {
                     ManagedEntity newvAppMe = retrievevApp(newvAppName);
 
                     if (newvAppMe != null) {
@@ -346,7 +346,7 @@ public class DeployvApp
                         Task listOfPoweronVmTasks = dcObj.powerOnMultiVM_Task(newvAppObject.getVMs());
 
                         // Monitor all VMs poweron task
-                        if (taskTracker(listOfPoweronVmTasks)) {
+                        if (taskTracker(listOfPoweronVmTasks, newvAppName, "PowerOn VM")) {
                             System.out
                                 .println("All VMs from vAPP: " + newvAppName + " have been poweredOn successfully");
                         } else {
@@ -356,7 +356,7 @@ public class DeployvApp
                         System.err.println("vApp: " + newvAppName + " deployment task failed");
                     }
                 } else {
-                    System.err.println("Could not find deployed vApp: " + srcvappName + " in inventory");
+                    System.err.println("Could not find deployed vApp: " + newvAppName + " in inventory");
                 }
 
                 System.out.println("Begin cleanup tasks ...");
@@ -373,7 +373,7 @@ public class DeployvApp
                     }
 
                     // Monitor all VMs poweroff task
-                    if (taskTracker(listOfPoweroffVmTasks)) {
+                    if (taskTracker(listOfPoweroffVmTasks, newvAppName, "PowerOff VM")) {
                         System.out.println("All VMs from vAPP: " + newvAppName + " have been poweredOff successfully");
                     } else {
                         System.err.println("Not All VMs from vApp: " + newvAppName + " could be powered off");
@@ -382,7 +382,7 @@ public class DeployvApp
                 System.out.println("Destory the vAPP");
                 Thread.sleep(1000 * 10);
 
-                if (taskTracker(newvAppObject.destroy_Task())) {
+                if (taskTracker(newvAppObject.destroy_Task(), newvAppName, "Destroy vApp")) {
                     System.out.println("vApp: " + newvAppName + " destroyed successfully");
                 } else {
                     System.err.println("vApp: " + newvAppName + " could not be destroyed");
@@ -399,13 +399,13 @@ public class DeployvApp
          * Monitor Task progress and return final state for list of tasks
          */
         private boolean
-        taskTracker(List<Task> listOfPoweronVmTasks) throws Exception
+        taskTracker(List<Task> listOfPoweronVmTasks, String vappName, String operation) throws Exception
         {
             boolean allTasksSucceded = false;
             List<Boolean> taskStatusList = new ArrayList<Boolean>();
 
             for (Task tempTaskMor : listOfPoweronVmTasks) {
-                Boolean tempTaskStatus = taskTracker(tempTaskMor);
+                Boolean tempTaskStatus = taskTracker(tempTaskMor, vappName, operation);
                 taskStatusList.add(tempTaskStatus);
             }
 
@@ -422,7 +422,7 @@ public class DeployvApp
          * Monitor Task progress and return final state
          */
         private boolean
-        taskTracker(Task taskMor) throws Exception
+        taskTracker(Task taskMor, String vappName, String operation) throws Exception
         {
             boolean isTaskSuccess = false;
 
@@ -431,17 +431,17 @@ public class DeployvApp
             while (!(taskState.equals(TaskInfoState.success))) {
 
                 if ((taskState.equals(TaskInfoState.error))) {
-                    System.err.println("Task errored out");
+                    System.err.println("[" + vappName + "-" + operation +"] Task errored out");
                     break;
                 } else {
-                    System.out.println("Task is still running");
+                    System.out.println("[" + vappName + "-" + operation +"] Task is still running");
                     Thread.sleep(2000);
                 }
                 taskState = taskMor.getTaskInfo().getState();
             }
 
             if (taskState.equals(TaskInfoState.success)) {
-                System.out.println("Task Completed");
+                System.out.println("[" + vappName + "-" + operation +"] Task Completed");
                 isTaskSuccess = true;
             }
 
