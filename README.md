@@ -1,0 +1,1 @@
+# vSphere-Parallel-vApp-Deployer
