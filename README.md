@@ -16,7 +16,7 @@ Utility Class to Deploy/Clone vAPP in a threaded fashion, from source host to al
 
 ##### Run from Pre-built Jars
  * Copy/Download the vAppDeployer.jar from Runnable-jar folder (from the uploaded file) and unzip on to local drive folder say c:\vAppDeployer
- * Open a command prompt and cd to the folder, lets say cd hostdstat
+ * Open a command prompt and cd to the folder, lets say cd vAppDeployer
  * Run a command like shown below to see various usage commands:  
  _C:\vAppDeployer>java -jar vAppDeployer.jar --help_
  
